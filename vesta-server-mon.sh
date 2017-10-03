@@ -48,7 +48,7 @@ fi
 	echo "" >> $LOGFILE
 # Check fail2ban
 	echo "##### CHECKING FAIL2BAN #####" >> $LOGFILE
-	service fail2ban status >> $LOGFILE 2>&1
+	/usr/sbin/service fail2ban status >> $LOGFILE 2>&1
 	echo "
 	##### CHECKING JAIL SSH #####" >> $LOGFILE
 	fail2ban-client status sshd >> $LOGFILE 2>&1
