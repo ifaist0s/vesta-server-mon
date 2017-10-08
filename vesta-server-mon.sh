@@ -9,18 +9,16 @@ MAILTO='ENTER YOUR EMAIL ADDRESS HERE'
 # Here we declare variable SUBJECT with subject of email
 SUBJECT="SERVER STATUS: $(hostname -f)"
 
-# Variable MAILX hold the name of the executable that we'll use to send mail with
-MAILX='mailx'
+# Check if mailx is installed and assign it's path to a variable
+MAILX="$(which mailx)"
 
 # Define the log file
 LOGFILE=$HOME/vesta-server-mon.log
 
-# Here we check if mail executable exist
-which $MAILX > /dev/null 2>&1
-# We check exit status of previous command if exit status not 0 this mean that mailx is not installed on system
-if ! [ $? -eq 0 ]
+# Throw error and exit if mailx is not installed
+if [[ $MAILX == "" ]]
 	then
-	  echo "Please install $MAILX"
+	  echo "Please install mailx"
 	#Here we warn user that mailx not installed
 	  exit 1
 	#Here we will exit from script
