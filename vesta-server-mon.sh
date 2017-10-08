@@ -6,7 +6,7 @@ DIR='/home'
 # Email address we'll send alerts to
 MAILTO='ENTER YOUR EMAIL ADDRESS HERE'
 
-# Here we declare variable SUBJECT with subject of email
+# Variable SUBJECT holds email's subject
 SUBJECT="SERVER STATUS: $(hostname -f)"
 
 # Check if mailx is installed and assign it's path to a variable
@@ -14,6 +14,9 @@ MAILX="$(which mailx)"
 
 # Define the log file
 LOGFILE=$HOME/vesta-server-mon.log
+
+# Manual set the environment so it accepts non ASCII characters https://stackoverflow.com/a/18717024/5211506
+export LC_CTYPE="el_GR.UTF-8"
 
 # Throw error and exit if mailx is not installed
 if [[ $MAILX == "" ]]
