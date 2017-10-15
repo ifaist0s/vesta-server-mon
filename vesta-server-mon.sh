@@ -52,7 +52,7 @@ fi
 	/usr/sbin/service fail2ban status >> $LOGFILE 2>&1
 	echo "
 	##### CHECKING JAIL SSH #####" >> $LOGFILE
-	fail2ban-client status sshd >> $LOGFILE 2>&1
+	fail2ban-client status ssh-iptables >> $LOGFILE 2>&1
 	echo "
 	##### CHECKING JAIL DOVECOT #####" >> $LOGFILE
 	fail2ban-client status dovecot-iptables >> $LOGFILE 2>&1
