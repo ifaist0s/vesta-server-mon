@@ -45,7 +45,7 @@ fi
 	echo "" >> $LOGFILE
 # Perform rsync
 	echo "##### CHECKING RSYNC BACKUP #####" >> $LOGFILE
-	rsync -ahv -e "ssh -p 22 -i /root/rsync_key" /backup/ root@YOURSERVER:/v-bakcup/$(hostname -f) >> $LOGFILE 2>&1
+	rsync -ahv --no-g -e "ssh -p 22 -i /root/rsync_key" /backup/ root@YOURSERVER:/v-bakcup/$(hostname -f) >> $LOGFILE 2>&1
 	echo "" >> $LOGFILE
 # Check fail2ban
 	echo "##### CHECKING FAIL2BAN #####" >> $LOGFILE
