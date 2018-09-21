@@ -77,5 +77,7 @@ fi
 	echo "##### CHECKING DNS FAILURES #####" >> $LOGFILE
 	tail -c 8192 /var/log/syslog | grep denied >> $LOGFILE 2>&1
 	echo "" >> $LOGFILE
+# Clean PHP session files older than 8h
+        for d in /home/*; do /usr/bin/find $d/tmp/sess_* -mmin +480 ; done
 # Send email alert
 	$MAILX -r root -s "$SUBJECT" "$MAILTO" < $LOGFILE 2>&1
