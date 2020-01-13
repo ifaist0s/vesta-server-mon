@@ -15,6 +15,11 @@ MAILX="$(which mailx)"
 # Define the log file
 LOGFILE=$HOME/vesta-server-mon.log
 
+# rsync variables (ssh key, local backup directory, remote backup directory)
+RSYNKEY=/root/rsa-key-backup.key
+LOCABAK=/backup/
+REMOBAK=/v-backup
+
 # Manual set the environment so it accepts non ASCII characters https://stackoverflow.com/a/18717024/5211506
 export LC_CTYPE="el_GR.UTF-8"
 
@@ -45,7 +50,7 @@ fi
 	echo "" >> $LOGFILE
 # Perform rsync
 	echo "##### CHECKING RSYNC BACKUP #####" >> $LOGFILE
-	rsync -ahv --no-g -e "ssh -p 22 -i /root/rsync_key" /backup/ root@YOURSERVER:/v-bakcup/$(hostname -f) >> $LOGFILE 2>&1
+	rsync -ahv --no-g -e "ssh -p 22 -i $RSYNKEY" /backup/ root@YOURSERVER:$REMOBAK/$(hostname -f) >> $LOGFILE 2>&1
 	echo "" >> $LOGFILE
 # Check fail2ban
 	echo "##### CHECKING FAIL2BAN #####" >> $LOGFILE
