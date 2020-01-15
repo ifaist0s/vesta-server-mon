@@ -4,7 +4,7 @@
 DIR='/home'
 
 # Email address we'll send alerts to
-MAILTO='ENTER YOUR EMAIL ADDRESS HERE'
+MAILTO='[CHANGE ME]'
 
 # Variable SUBJECT holds email's subject
 SUBJECT="SERVER STATUS: $(hostname -f)"
@@ -15,10 +15,12 @@ MAILX="$(which mailx)"
 # Define the log file
 LOGFILE=$HOME/vesta-server-mon.log
 
-# rsync variables (ssh key, local backup directory, remote backup directory)
-RSYNKEY=/root/rsa-key-backup.key
+# rsync variables (ssh key, local backup directory, remote backup directory, backup server)
+RSYNKEY=$HOME/rsa-key-backup.key
 LOCABAK=/backup/
 REMOBAK=/v-backup
+BAKFOLD=[CHANGE ME]		# No slashes
+BAKSERV=[CHANGE ME]		# Hostname or IP address
 
 # Manual set the environment so it accepts non ASCII characters https://stackoverflow.com/a/18717024/5211506
 export LC_CTYPE="el_GR.UTF-8"
@@ -50,7 +52,7 @@ fi
 	echo "" >> $LOGFILE
 # Perform rsync
 	echo "##### CHECKING RSYNC BACKUP #####" >> $LOGFILE
-	rsync -ahv --no-g -e "ssh -p 22 -i $RSYNKEY" /backup/ root@YOURSERVER:$REMOBAK/$(hostname -f) >> $LOGFILE 2>&1
+	rsync -ahv --no-g -e "ssh -p 22 -i $RSYNKEY" $LOCABAK bak@$BAKSERV:$REMOBAK/$BAKFOLD/$(hostname -f) >> $LOGFILE 2>&1
 	echo "" >> $LOGFILE
 # Check fail2ban
 	echo "##### CHECKING FAIL2BAN #####" >> $LOGFILE
@@ -82,7 +84,7 @@ fi
 	echo "##### CHECKING DNS FAILURES #####" >> $LOGFILE
 	tail -c 8192 /var/log/syslog | grep denied >> $LOGFILE 2>&1
 	echo "" >> $LOGFILE
-# Clean PHP session files older than 8h
-        for d in /home/*; do /usr/bin/find $d/tmp/sess_* -mmin +480 -delete; done &> /dev/null
+# Clean PHP session files older than 24h
+        for d in /home/*; do /usr/bin/find $d/tmp/sess_* -mmin +1440 -delete; done &> /dev/null
 # Send email alert
 	$MAILX -r root -s "$SUBJECT" "$MAILTO" < $LOGFILE 2>&1
