@@ -13,7 +13,7 @@ SUBJECT="SERVER STATUS: $(hostname -f)"
 MAILX="$(which mailx)"
 
 # Define the log file / Same name as script file but with .log extension
-LOGFILE=$HOME/$0.log
+LOGFILE=$0.log
 
 # rsync variables (ssh key, local backup directory, remote backup directory, backup server)
 RSYNKEY=$HOME/rsa-key-backup.key
