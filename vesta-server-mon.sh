@@ -25,6 +25,10 @@ BAKSERV=[CHANGE ME]		# Hostname or IP address
 # Manual set the environment so it accepts non ASCII characters https://stackoverflow.com/a/18717024/5211506
 export LC_CTYPE="el_GR.UTF-8"
 
+# Check if this is a VESTA or HESTIA installation
+[[ -d /usr/local/vesta/ ]] && CPNAME=vesta
+[[ -d /usr/local/hestia/ ]] && CPNAME=hestia
+
 # Throw error and exit if mailx is not installed
 if [[ $MAILX == "" ]]
 	then
@@ -74,7 +78,7 @@ fi
 	fail2ban-client status vsftpd-iptables >> $LOGFILE 2>&1
 	echo "
 	##### CHECKING JAIL VESTA #####" >> $LOGFILE
-	fail2ban-client status vesta-iptables >> $LOGFILE 2>&1
+	fail2ban-client status $CPNAME-iptables >> $LOGFILE 2>&1
 	echo "" >> $LOGFILE
 # Check the number of outgoing messages per user
 	echo "##### CHECKING NUMBER OF MESSAGES PER USER #####" >> $LOGFILE
